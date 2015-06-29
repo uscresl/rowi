@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MultiAccordion Examples</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+
+  <script src="js/multiaccordion.jquery.min.js"></script>
+  <link rel="stylesheet" href="css/multiaccordion.jquery.css" />
+
+  <script type="text/javascript">
+
+  $(document).ready(function() {
+    $(".accordion").multiaccordion();
+  });
+
+  </script>
+</head>
+<body>
+
+<!-- example 1 -->
+<div class="accordion blue">
+  <h3>Simple Accordion 1</h3>
+  <div class="content">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in facilisis orci. Vivamus dapibus feugiat.
+  </div>
+</div>
+
+<!-- example 2 -->
+<div class="accordion green">
+  <h3>Simple Accordion 2</h3>
+  <div class="content">
+
+    <div class="accordion odd">
+      <h3>Nested Accordion 2.1</h3>
+      <div class="content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in facilisis orci. Vivamus dapibus feugiat.
+      </div>
+    </div>
+
+    <div class="accordion odd">
+      <h3>Nested Accordion 2.2</h3>
+      <div class="content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in facilisis orci. Vivamus dapibus feugiat.
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="accordion">
+<h3>asdf</h3>
+<div class="content">
+</div>
+</div>
+
+</body>
+</html>

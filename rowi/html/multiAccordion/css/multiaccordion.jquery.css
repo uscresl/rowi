@@ -1,0 +1,57 @@
+
+.ui-accordion .ui-accordion-header .ui-accordion-header-icon {
+  left: initial;
+  right: .5em
+}
+/*
+.ui-accordion-header {
+  border: 0;
+  background: #ee514c;
+  color: #fff!important
+}
+*/
+.blue > .ui-accordion-header,
+.blue.ui-accordion-header { background: #2980b9 }
+
+.blue > .ui-accordion-header.ui-state-hover,
+.blue.ui-accordion-header.ui-state-hover { background: #3498db }
+
+.green > .ui-accordion-header,
+.green.ui-accordion-header { background: #27ae60 }
+
+.green > .ui-accordion-header.ui-state-hover,
+.green.ui-accordion-header.ui-state-hover { background: #2ecc71 }
+
+.violet .ui-accordion-header,
+.violet.ui-accordion-header { background: #551d74 }
+
+.violet .ui-accordion-header.ui-state-hover,
+.violet.ui-accordion-header.ui-state-hover { background: #9461b1 }
+/*
+.ui-accordion-header.ui-state-hover { background: #ec7672 }
+*/
+
+.accordion > .ui-widget-content {
+  background: transparent;
+  border: 1px solid #ccc;
+  margin: -1px 0 0px 0;
+  padding: 3px 3px 6px 3px;
+}
+
+/*
+.odd .ui-accordion-header {
+  border: 0;
+  background: #e8e8e8;
+  color: #000!important;
+  text-align: left
+}
+
+.odd .ui-accordion-header.ui-state-hover { background: #dfdfdf }
+
+.odd .ui-widget-content {
+  background: #f4f4f4;
+  border: 0;
+  margin: -2px 0 2px 0;
+  padding: 5px
+}
+*/

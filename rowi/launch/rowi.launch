@@ -1,0 +1,15 @@
+<launch>
+    <node name="webserver" pkg="rowi" type="start_webserver.py" output="screen">
+      <param name="port" value="8000" />
+      <param name="config" value="$(find rowi)/html/config.js" />
+    </node>
+
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <arg name="port" value="9090"/>
+  </include>
+
+  <node pkg="web_video_server" type="web_video_server" name="web_video_server">
+    <param name="port" value="9089" />
+  </node>
+
+</launch>

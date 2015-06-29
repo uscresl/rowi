@@ -1,0 +1,12 @@
+[submodule "rowi/html/js/leaflet-plugins"]
+	path = rowi/html/js/leaflet-plugins
+	url = https://github.com/shramov/leaflet-plugins.git
+[submodule "rowi/html/js/Leaflet.fullscreen"]
+	path = rowi/html/js/Leaflet.fullscreen
+	url = https://github.com/Leaflet/Leaflet.fullscreen.git
+[submodule "rowi/html/js/Leaflet.toolbar"]
+	path = rowi/html/js/Leaflet.toolbar
+	url = https://github.com/Leaflet/Leaflet.toolbar.git
+[submodule "rowi/html/js/Proj4Leaflet"]
+	path = rowi/html/js/Proj4Leaflet
+	url = https://github.com/kartena/Proj4Leaflet.git

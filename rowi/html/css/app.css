@@ -1,0 +1,87 @@
+#container { padding: 0px; margin: 0px; width:100%; height:100%; }
+#sidebar { padding: 0px; margin: 0px; }
+#map { width: 100%; height: 100%; }
+
+.leaflet-div-number-icon {
+    background: transparent;
+    border: none;
+}
+
+.leaflet-marker-icon .number{
+    position: relative;
+    top: -37px;
+    font-size: 12px;
+    width: 25px;
+    text-align: center;
+}
+
+.ui-accordion .ui-accordion-header {
+    font-size: 10px;
+}
+
+.ui-accordion .ui-accordion-content-active {
+    font-size: 10px;
+}
+
+#accordion {
+    height: 99%;
+}
+
+.ui-accordion-content-active {
+    border: 1px solid #ccc;
+}
+
+/*
+.awesome-marker i {
+        font-size: 18px;
+        margin-top: 8px;
+    }
+*/
+
+.templates {
+    display: none;
+}
+
+.pane {
+    display:	none; /* will appear when layout inits */
+}
+
+body {
+    height: 100%;
+}
+
+#tabs {
+    height: 100%;
+}
+
+
+
+#tab_plot {
+  height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+label {
+    display: inline-block; width: 15em;
+  }
+
+
+.white-text { color: #fff; }
+.blue-text { color: #3498db; }
+.red-text { color: #e74c3c; }
+.green-text { color: #2ecc71; }
+.yellow-text { color: #f1c40f; }
+.orange-text { color: #e67e22; }
+.purple-text { color: #9b59b6; }
+
+.diag-bar-text { clear: left; clear: right; width: 100%; font-weight: bold; text-align: center; }
+.diag-bar { clear: left; clear: right; float: right; width: 100%; display: block; text-align: right; }
+.diag-bar-error { background-color: #e74c3c; color: white;  text-align: center; font-weight: bold; }
+.diag-bar-warning  { background-color: #e67e22; color: black;  text-align: center; font-weight: bold; }
+.diag-bar-ok { background-color: #2ecc71; color: white;  text-align: center; font-weight: bold; }
+.diag-bar-stale { background-color: #3498db; color: white;  text-align: center; font-weight: bold; }
+.diag-bar-disconnect { background-color: #9b59b6; color: white; text-align: center; font-weight: bold; }
+.diag-bar-block { float:left; width: calc(100% / 30); display:inline; border-left: 1px solid black; }

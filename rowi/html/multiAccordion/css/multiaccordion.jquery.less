@@ -1,0 +1,70 @@
+@blue: #426bad;
+@violet: #551d74;
+@red: #ee514c;
+@green: #41a36e;
+@grey: #e8e8e8;
+
+.ui-accordion {
+
+  .ui-accordion-header {
+    border: 0;
+    color: #fff;
+
+    .ui-accrdion-header-icon {
+      left: inherit;
+      right: .5em;
+    }
+
+    &.red {
+      background-color: @red;
+      &.ui-state-hover {
+        background-color: lighten(@red, 20%);
+      }
+    }
+
+    &.blue {
+      background-color: @blue;
+      &.ui-state-hover {
+        background-color: lighten(@blue, 20%);
+      }
+    }
+
+    &.green {
+      background-color: @green;
+      &.ui-state-hover {
+        background-color: lighten(@green, 20%);
+      }
+    }
+
+    &.violet {
+      background-color: @violet;
+      &.ui-state-hover {
+        background-color: lighten(@violet, 20%);
+      }
+    }
+
+    &.grey {
+      background-color: @grey;
+      &.ui-state-hover {
+        background-color: lighten(@grey, 20%);
+      }
+    }
+
+    &.odd {
+      color: #000;
+    }
+  }
+
+  .ui-widget-content {
+    background-color: transparent;
+    border: 0;
+    margin: 2px 0 3px;
+    padding: 5px 10px 5px 0;
+
+    .odd {
+      background-color: lighten(@grey, 70%);
+      margin: -2px 0 2px;
+      padding: 5px;
+    }
+  }
+}
