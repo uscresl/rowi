@@ -6,10 +6,6 @@ var config = {
             type: 'clickposition',
         },
         {
-            type: 'record_services',
-            namespace: 'robot'
-        },
-        {
             type: 'video',
             namespace: 'robot'
         },

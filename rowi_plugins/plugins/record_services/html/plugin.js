@@ -1,7 +1,5 @@
 //# sourceURL=plugins/record_services/plugin.js
 
-// Battery info
-//
 
 function record_services(config) {
     var self = this;
@@ -40,6 +38,69 @@ function record_services(config) {
       el.attr("class", this.base_icon_classes+icon+' '+color+'-text'+ " title="+text);
     };
 
+    this.single_click = function(topic_group, event){
+
+        var act = this.statuses[topic_group];
+
+        if(act == START){
+          act = STOP;
+        }
+        else{
+          act = START;
+        }
+
+        // Don't change
+        var recordServiceClient = new ROSLIB.Service({
+          ros: ROWI.ros,
+          name: '/record_service',
+          serviceType: 'rosbag_record_service/RecordSrv'
+        });
+
+        // At each request
+        var request = new ROSLIB.ServiceRequest({
+          action: act, // or "stop"
+          topic_group: topic_group
+        });
+
+        recordServiceClient.callService(request, function(result) {
+          //console.log(result);
+        });
+
+    };
+
+    this.multi_click = function(action, event){
+    this.checkIndex = 0;
+    this.checkedElem = [];
+
+    var temp = this;
+    var len = $('input[type=checkbox][id=cbox]:checked').length;
+
+
+      $('input[type=checkbox][id=cbox]:checked').each(function (index) {
+        if (index<len) {
+          temp.checkedElem[index] = temp.grpName[$(this).val()];
+        }
+      });
+
+   // Don't change
+          var recordServiceMultiClient = new ROSLIB.Service({
+            ros: ROWI.ros,
+            name: '/record_service/multi',
+            serviceType: 'rosbag_record_service/RecordSrvMulti'
+          });
+
+          // At each request
+          var request = new ROSLIB.ServiceRequest({
+            action: action, // or "stop"
+            topic_groups:this.checkedElem // or test2
+          });
+
+          recordServiceMultiClient.callService(request, function(result) {
+            //console.log(result);
+          });
+
+    };
+
 /*    this.create_icon = function(el,icon,color,text){
       el.attr("class", this.base_icon_classes+icon+' '+color+'-text'+ " title="+text);
     }
@@ -59,67 +120,29 @@ function record_services(config) {
           }
           this.checkfirst = false;
         }
-        
+
         for (index = 0; index < grp.length; index++) {
+            if(this.icon_isThere[index]){
+              this.initicon(msg,index);
+            }
             if(mode[index] == this.OFF)
             {
-              if(this.icon_isThere[index]){
-                this.initicon(msg,index);
-              }
-              else
-              {
                 this.change_icon(this.icon_panel[index], 'square', 'red','service off');
-              }
             }
             else
             {
-              if(this.icon_isThere[index]){
-                this.initicon(msg,index);
-              }
-              else
-              {
                 this.change_icon(this.icon_panel[index], 'circle', 'green','service on');
-              }
             }
 
             var act = msg.statuses[index];
 
             if(this.clickonce == true){
-            this.icon_panel[index].bind("click" , {id: index, topic_group: grp[index], name: act} , (function(event){
-                var ind = event.data.id;
-                var topic_group = event.data.topic_group;
-                var act = this.statuses[topic_group];
+                this.icon_panel[index].bind("click" , this.single_click.bind(this, msg.groups[index]));
 
-                if(act == START){
-                  act = STOP;
+                if(index == grp.length-1){
+                    this.clickonce = false;
                 }
-                else{
-                  act = START;
-                }
-                
-                // Don't change
-                var recordServiceClient = new ROSLIB.Service({
-                  ros: ROWI.ros,
-                  name: '/record_service',
-                  serviceType: 'rosbag_record_service/RecordSrv'
-                });
-
-                // At each request
-                var request = new ROSLIB.ServiceRequest({
-                  action:act, // or "stop"
-                  topic_group:msg.groups[ind] // or test2
-                });
-
-                recordServiceClient.callService(request, function(result) {
-                  console.log(result);
-                });
-
-              }).bind(this));
-
-            if(index == grp.length-1){
-              this.clickonce = false;
             }
-          }
 
         }
 
@@ -137,99 +160,17 @@ function record_services(config) {
 
           this.select_all.bind("click",function(event){
             //alert("hello");
-            if(this.checked){ 
-
+            var that = this;
             var mark = $('input[type=checkbox][id=cbox]').each(function(index)  {
-              this.checked = true;
+              this.checked = that.checked
             });
-            //this.checked = false;
-            }
-            else{
-              var mark = $('input[type=checkbox][id=cbox]').each(function(index)  {
-              this.checked = false;
-            });
-            }
           });
 
           this.start_button = $('<input type="button" value="start" id="getCheckboxesButton"></input>').appendTo(this.panel);
-          this.start_button.bind("click",function(event){
-          this.checkIndex = 0;
-          this.checkedElem = [];
-
-          var temp = this;
-          var len = $('input[type=checkbox][id=cbox]:checked').length;
-          console.log("length is " + len);
-
-            $('input[type=checkbox][id=cbox]:checked').each(function (index) {
-              if (index<len) {
-                temp.checkedElem[index] = temp.grpName[$(this).val()];
-              }
-            });
-          //console.log(temp.checkedElem);
-          console.log(this.checkedElem);
-
-         // Don't change
-                var recordServiceMultiClient = new ROSLIB.Service({
-                  ros: ROWI.ros,
-                  name: '/record_service/multi',
-                  serviceType: 'rosbag_record_service/RecordSrvMulti'
-                });
-
-                // At each request
-                var request = new ROSLIB.ServiceRequest({
-                  action:1, // or "stop"
-                  topic_groups:this.checkedElem // or test2
-                });
-
-                recordServiceMultiClient.callService(request, function(result) {
-                  console.log(result);
-                });
-       
-          }.bind(this));
-
-
-
+          this.start_button.bind("click",this.multi_click.bind(this,1));
 
           this.stop_button = $('<input type = "submit" value = "stop"/>').appendTo(this.panel);
-          this.stop_button.bind("click",function(event){
-          this.checkIndex = 0;
-          this.checkedElem = [];
-
-          var temp = this;
-          var len = $('input[type=checkbox][id=cbox]:checked').length;
-          //console.log("length is " + len);
-
-            $('input[type=checkbox][id=cbox]:checked').each(function (index) {
-              if (index<len) {
-                temp.checkedElem[index] = temp.grpName[$(this).val()];
-              }
-            });
-          //console.log(temp.checkedElem);
-          console.log(this.checkedElem);
-
-         // Don't change
-                var recordServiceMultiClient = new ROSLIB.Service({
-                  ros: ROWI.ros,
-                  name: '/record_service/multi',
-                  serviceType: 'rosbag_record_service/RecordSrvMulti'
-                });
-
-                // At each request
-                var request = new ROSLIB.ServiceRequest({
-                  action:0, // or "stop"
-                  topic_groups:this.checkedElem // or test2
-                });
-
-                recordServiceMultiClient.callService(request, function(result) {
-                  console.log(result);
-                });
-       
-          }.bind(this));
-
-          
-          
-
-
+          this.stop_button.bind("click",this.multi_click.bind(this, 0));
 
           this.isButton = true;
         }
@@ -259,7 +200,7 @@ function record_services(config) {
       this.cbox_panel[index] = $('<td><input type = "checkbox" id = "cbox">'+'</input></td>').appendTo(table);
       this.cbox_panel[index].find("input").val(val);
       if(msg.statuses[index] == this.OFF){
-        this.icon_panel[index] = $('<span class="fa fa-square red-text" title="service off"></span>').appendTo(table);  
+        this.icon_panel[index] = $('<span class="fa fa-square red-text" title="service off"></span>').appendTo(table);
       }
       else{
         this.icon_panel[index] = $('<span class="fa fa-circle green-text" title="service on"></span>').appendTo(table);
