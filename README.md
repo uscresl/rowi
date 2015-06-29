@@ -28,10 +28,13 @@ Directory structure of that package needs to be:
     package_name/CMakeLists.txt
 
 The package manifest (package.xml) needs to define an export:
+
     <export>
       <rowi plugin="plugin_name" />
     </export>
+
 and also have define a run rependency on rowi:
+
     <run_depend>rowi</run_depend>
 
 Multiple plugins can be defined in the same package.
