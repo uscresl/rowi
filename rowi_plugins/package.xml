@@ -55,5 +55,6 @@
     <rowi plugin="video" />
     <rowi plugin="web_video" />
     <rowi plugin="plot" />
+    <rowi plugin="record_services" />
   </export>
 </package>
