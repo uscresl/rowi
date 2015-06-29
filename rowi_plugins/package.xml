@@ -55,6 +55,7 @@
     <rowi plugin="video" />
     <rowi plugin="web_video" />
     <rowi plugin="plot" />
+    <rowi plugin="uav" />
     <rowi plugin="record_services" />
   </export>
 </package>

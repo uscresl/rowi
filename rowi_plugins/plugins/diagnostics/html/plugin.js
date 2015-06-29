@@ -6,7 +6,12 @@
 function diagnostics(config) {
     var self = this;
 
-    this.config = config;
+    var defaults = {
+
+    };
+
+    this.config = $.extend({}, defaults, config || {});
+    
     this.namespace = config.namespace;
     this.panel = null;
     this.color_panel = null;

@@ -7,19 +7,22 @@
 // centering & tracking
 
 function RobotBase(config) {
+
+    var defaults = {
+        color: 'yellow',
+        icon: {
+            url: 'icons/emoticon_smile.png',
+            size: [16,16],
+            anchor: [7,7],
+            popup_anchor: [0, 0],
+        },
+        history: true
+    };
+
+    config = $.extend({}, defaults, config || {});
+
+
   ROWIPlugin.call(this, config);
-
-  this.config.color = this.config.color || 'yellow';
-
-  if(!('history' in this.config)) {
-    this.config.history = true;
-  }
-
-  this.config.icon = this.config.icon || {};
-  this.config.icon.url = this.config.icon.url || this.folder+'icons/emoticon_smile.png';
-  this.config.icon.size = this.config.icon.size || [16,16];
-  this.config.icon.anchor = this.config.icon.anchor || [7, 7]
-  this.config.icon.popup_anchor = this.config.icon.popup_anchor || [0, 0];
 
   this.position = null;
   this.panel = null;

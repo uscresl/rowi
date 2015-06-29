@@ -1,6 +1,11 @@
 //# sourceURL=plugins/dynamic_reconfigure/plugin.js
 
 function DynamicReconfigurePlugin(config) {
+    var defaults = {
+
+    };
+
+    config = $.extend({}, defaults, config || {});
   ROWIPlugin.call(this, config);
   this.dynamic_reconfigure_gui = null;
   this.tab = null;

@@ -26,8 +26,18 @@ var ROWI = {
     tabs_info: {},
     tab_count: 0,
     config: {},
+    defaults: {
+        disable_default_tiles: false,
+        initial_position: {
+            latitude: 34.08716,
+            longitude: -117.81032,
+            zoom: 18
+        },
+    },
+    layers: {},
+    layer_control: null,
     init: function(config) {
-      this.config = config;
+        this.config = $.extend({}, this.defaults, config || {});
 
       this.tabs_el = $( "#tabs" );
         this.init_map();
@@ -92,10 +102,23 @@ var ROWI = {
       });
     },
     add_tile_layer: function(id, name, layer, activate) {
-
+        this.layers[id] = {
+            name: name,
+            layer: layer
+        };
+        this.layer_control.addBaseLayer(layer, name);
+        if(activate) {
+            this.switch_tile_layer(id);
+        }
     },
-    swich_tile_layer: function(id) {
-
+    switch_tile_layer: function(id) {
+        for (var layer_id in this.layers) {
+            var layer = this.layers[layer_id].layer;
+            if (this.map.hasLayer(layer) && layer_id != id) {
+                 this.map.removeLayer(layer);
+            }
+        }
+        this.map.addLayer(this.layers[id].layer);
     },
     init_map: function() {
 
@@ -129,33 +152,28 @@ var ROWI = {
 
       var mylayout = map_div.layout(options);
 
-        // var cached = L.tileLayer('tiles/{x}x{y}x{z}.jpg',
-        //     {
-        //         attribution: 'Imagery by Google Maps',
-        //         maxNativeZoom: 20,
-        //         maxZoom: 27,
-        //
-        //     });
-        //
-        var MapQuestOpen_Aerial = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
-            type: 'sat',
-            ext: 'jpg',
-            attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
-            subdomains: '1234',
-            maxNativeZoom: 18,
-            maxZoom: 27,
-        });
 
         this.map = L.map('map', {
             fullscreenControl: true
             });
 
-        if(!this.config.disableDefaultTiles) {
+            var baseMaps = {
+                // "OSM (online)": osm,
+                // "Aerial (online)": mapquest_aerial
+            };
+
+            var overlayMaps = {
+
+            };
+
+            this.layer_control = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+
+        if(!this.config.disable_default_tiles) {
           var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
               maxZoom: 19,
               attribution: '&copy; <a href="http://www.osm.org/copyright">OpenStreetMap</a>'
           });
-          osm.addTo(this.map);
+          this.add_tile_layer('osm', 'OSM (online)', osm, true);
           var mapquest_aerial = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
               type: 'sat',
               ext: 'jpg',
@@ -164,33 +182,11 @@ var ROWI = {
               maxNativeZoom: 18,
               maxZoom: 27,
           });
-          var baseMaps = {
-              "OSM (online)": osm,
-              "Aerial (online)": mapquest_aerial
-          };
-
-          var overlayMaps = {
-
-          };
-
-          L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+          this.add_tile_layer('mapquest_aerial', 'Aerial (online)', mapquest_aerial);
         }
 
-
-        var initial_pos = config.initial_position || {latitude: 34.08716,longitude: -117.81032,zoom: 18};
+        var initial_pos = this.config.initial_position;
         this.map.setView([initial_pos.latitude, initial_pos.longitude ], initial_pos.zoom);
-
-        // var baseMaps = {
-        //     "Cached (offline)": cached,
-        //     "OSM (online)": OpenStreetMap_Mapnik,
-        //     "Aerial (online)": MapQuestOpen_Aerial
-        // };
-        //
-        // var overlayMaps = {
-        //
-        // };
-        //
-        // L.control.layers(baseMaps, overlayMaps).addTo(this.map);
 
         var measureControl = new L.Control.Measure({ position: 'bottomright' });
         measureControl.addTo(this.map);

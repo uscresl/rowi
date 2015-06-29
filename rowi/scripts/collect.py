@@ -12,7 +12,8 @@ import rowi
 
 parser = argparse.ArgumentParser(description='Collect ROWI files to a directory. Use this script to deploy ROWI in to a directory and serve with a webserver.')
 parser.add_argument('destination')
-parser.add_argument('-c','--create',action='store_true',help="Create directory if it does not exist.")
+parser.add_argument('-c','--config',help="Config file to copy to new setup.")
+parser.add_argument('-C','--create',action='store_true',help="Create directory if it does not exist.")
 parser.add_argument('-o','--overwrite',action='store_true',help="Delete existing files at destination.")
 parser.add_argument('-s','--simulate',action='store_true',help="Does not actually copy. Use with -v.")
 parser.add_argument('-v','--verbose',action='store_true',help="Verbose.")
@@ -104,6 +105,15 @@ for p in plugins:
     os.makedirs(dst)
     copy_contents(src, dst, verbose=args.verbose, simulate=args.simulate, overwrite=args.overwrite, ignore=ignore)
 
+if args.config:
+    src = args.config
+    dst = os.path.join(dest,'config.js')
+    if args.verbose:
+        print 'Copying config file: %s -> %s' % (src, dst)
+    if not args.simulate:
+        shutil.copy(src, dst)
+
+        
     # if os.path.exists(dst) and args.overwrite:
     #     if args.verbose:
     #         print 'Deleting directory: %s' % dst

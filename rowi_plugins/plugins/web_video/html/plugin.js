@@ -1,6 +1,11 @@
 //# sourceURL=plugins/web_video/plugin.js
 
 function WebVideoPlugin(config) {
+    var defaults = {
+        web_video_server_url: 'http://'+ROWI.ros_master+':9089/',
+    };
+
+    config = $.extend({}, defaults, config || {});
   ROWIPlugin.call(this, config);
   this.tab = null;
 }
@@ -14,7 +19,7 @@ WebVideoPlugin.prototype.init = function() {
 };
 
 WebVideoPlugin.prototype.activate = function() {
-  $('<iframe src="http://'+ROWI.ros_master+':9089/" style="width:100%; height:100%;">').appendTo(this.tab);
+  $('<iframe src="'+this.config.web_video_server_url+'" style="width:100%; height:100%;">').appendTo(this.tab);
 }
 
 WebVideoPlugin.prototype.deactivate = function() {

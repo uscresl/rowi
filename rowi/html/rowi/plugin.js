@@ -1,8 +1,13 @@
 
 var ROWIPlugin = function(config) {
-  this.config = config || {};
-  this.namespace = config.namespace;
-  this.folder = config.folder;
+    var defaults = {
+
+    };
+
+    this.config = $.extend({}, defaults, config || {});
+
+  this.namespace = this.config.namespace;
+  this.folder = this.config.folder;
 };
 
 ROWIPlugin.prototype.ros_reload = function(ros) {

@@ -4,11 +4,19 @@
 ROWI.load_plugin('robot_base');
 
 function UAV(config) {
-  RobotBase.call(this, config);
-  this.config.icon.url = this.folder+'/img/quad.png';
-  this.config.icon.size = this.config.icon.size || [25,25];
-  this.config.icon.anchor = this.config.icon.anchor || [9, 7]
-  this.config.icon.popup_anchor = this.config.icon.popup_anchor || [-3, -76];
+
+    var defaults = {
+        icon: {
+            url: this.folder+'/img/quad.png',
+            size: [25,25],
+            anchor: [9,7],
+            popup_anchor: [-3, -76],
+        }
+    };
+
+    config = $.extend({}, defaults, config || {});
+
+    RobotBase.call(this, config);
 }
 
 // Boilerplate

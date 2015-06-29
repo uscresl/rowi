@@ -4,7 +4,12 @@
 function record_services(config) {
     var self = this;
 
-    this.config = config;
+    var defaults = {
+
+    };
+
+    this.config = $.extend({}, defaults, config || {});
+    
     this.namespace = config.namespace;
 
 //    this.base_icon_classes = "fa fa-3x fa-";

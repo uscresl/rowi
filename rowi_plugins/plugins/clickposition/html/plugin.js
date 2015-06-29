@@ -1,18 +1,21 @@
 //# sourceURL=plugins/clickposition/plugin.js
 
-function clickposition(config) {
+function ClickPositionPlugin(config) {
 
-    self = this;
-    this.config = config;
-    this.panel = null;
-
-    this.init = function() {
-        this.panel = ROWI.add_panel(this, "Click position", "/clickposition");
-        ROWI.map.on('click', function(e) {
-            self.panel.innerHTML = "Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng;
-        });
+    var defaults = {
 
     };
+    this.config = $.extend({}, defaults, config || {});
+
+    this.panel = null;
+
 }
 
-ROWI.register_plugin('clickposition', clickposition);
+ClickPositionPlugin.prototype.init = function() {
+    this.panel = ROWI.add_panel(this, "Click position", "/clickposition");
+    ROWI.map.on('click', function(e) {
+        this.panel.innerHTML = "Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng;
+    }.bind(this));
+};
+
+ROWI.register_plugin('clickposition', ClickPositionPlugin);
