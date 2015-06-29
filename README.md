@@ -10,9 +10,9 @@ Plugins can be defined in other packages and used by ROWI:
 Directory structure of that package needs to be:
 
     package_name/
-    package_name/html/
-    package_name/html/plugin_name/
-    package_name/html/plugin_name/plugin.js
+    package_name/plugin_name/
+    package_name/plugin_name/html/
+    package_name/plugin_name/html/plugin.js
     package_name/package.xml
     package_name/CMakeLists.txt
 
