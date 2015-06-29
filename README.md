@@ -1,9 +1,20 @@
 ROWI - Robot Operations Web Interface
 =====================================
 
-ROWI is am extendable modular web interface for robot control & visualization for ROS.
+ROWI is an extendable modular web interface for robot control & visualization for ROS.
+
+# Design
 
 Designed with field robotics in mind, its main module is a map module based on Leaflet-js which allows for geographic visualization of robots and data. The map can use tiles from variety of sources supported by Leaflet and its plugins. User provided "offline" cached tiles are also supported.
+
+Some of our design guidelines & goals for ROWI:
++ Don't assume internet access is available (ability to have cached map tiles and use local copies of all assets).
++ Support visualization and control of multiple robot systems in one GUI.
++ Provide web based access to many ROS tools/functionality available.
++ Work on both computers and tablets (currently we don't test on phones).
++ Work on late versions of Chrome, Firefox, Chrome for Android & Safari for iOS.
+
+# Plugins
 
 ROWI supports plugins that can interact with the map, display information in the sidebar or in tabs.
 Plugins can be defined in other packages and used by ROWI:
@@ -32,3 +43,17 @@ Some existing plugins:
    Web based version of rqt_robot_monitor.
 + Video
    Utilized web-video-server to display live feeds and snapshot from available camera topics.
+
+
+# Running
+
+Use the included start_webserver.py script that starts up a simple webserver, or use the collect.py script to deploy ROWI to a directory to serve with your own webserver.
+
+
+# Configuration
+
+ROWI can be configured using the config.js file included. start_webserver.py accepts a ~config parameter to define which config file to use. If deploying for another webserver, use -c option in collect.py or copy the config to the deploy directory.
+
+# Documentation
+
+ROWI is currently in early development and is lacking much documentation since API is very unstable.
