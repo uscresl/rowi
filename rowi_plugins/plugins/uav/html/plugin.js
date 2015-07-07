@@ -7,7 +7,7 @@ function UAV(config) {
 
     var defaults = {
         icon: {
-            url: this.folder+'/img/quad.png',
+            url: 'plugins/uav/img/quad.png',
             size: [25,25],
             anchor: [9,7],
             popup_anchor: [-3, -76],
@@ -17,6 +17,7 @@ function UAV(config) {
     config = $.extend({}, defaults, config || {});
 
     RobotBase.call(this, config);
+
 }
 
 // Boilerplate
