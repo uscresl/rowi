@@ -9,8 +9,8 @@ function UAV(config) {
         icon: {
             url: 'plugins/uav/img/quad.png',
             size: [25,25],
-            anchor: [9,7],
-            popup_anchor: [-3, -76],
+            anchor: [12,12],
+            popup_anchor: [0, -5],
         }
     };
 

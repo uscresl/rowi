@@ -1,14 +1,17 @@
 //# sourceURL=plugins/video/plugin.js
 
 function VideoThumbnailPlugin(config) {
-    ROWIPlugin.call(this, config);
 
     var defaults = {
         web_video_server_url: 'http://'+ROWI.ros_master+':9089/',
         topic: 'camera/image_raw'
     };
 
-    this.config = $.extend({}, defaults, config || {});
+    config = $.extend({}, defaults, config || {});
+
+    this.templates = ["panel.html",];
+
+    ROWIPlugin.call(this, config);
 
 }
 
@@ -43,6 +46,7 @@ VideoThumbnailPlugin.prototype.update_snapshot = function() {
   if(!$(this.panel).is(":visible")) {
     return;
   }
+
   if(!this.playing) {
     this.container.attr('src',this.config.web_video_server_url+'snapshot?topic='+this.config.topic);
   }
