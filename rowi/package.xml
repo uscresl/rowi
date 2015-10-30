@@ -25,6 +25,7 @@
   <run_depend>web_video_server</run_depend>
   <run_depend>python-catkin-pkg</run_depend>
   <run_depend>tf2_web_republisher</run_depend>
+  <run_depend>python-bson</run_depend>
   <!-- Dependencies needed only for running tests. -->
 
 </package>
