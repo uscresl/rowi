@@ -28,6 +28,7 @@ function RobotBase(config) {
   this.panel = null;
   this.history = null;
   this.marker = null;
+  this.prune_counter = 0;
 
   this.heading = null;
   this.velocity = null;
@@ -109,7 +110,7 @@ RobotBase.prototype.updateLatLon = function(lat, lon) {
     this.history.addLatLng(this.position);
 
     if(this.prune_counter++>100) {
-        this.prune_history();
+        this.pruneHistory();
         this.prune_counter = 0;
     }
   }
@@ -131,6 +132,7 @@ RobotBase.prototype.updateHeading = function(heading) {
 
 RobotBase.prototype.clearHistory = function() {
   if(!this.history) {
+      this.createHistory();
       return;
   }
   this.history.setLatLngs([]);
