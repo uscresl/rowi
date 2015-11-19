@@ -39,7 +39,7 @@ var ROWI = {
     init: function(config) {
         this.config = $.extend({}, this.defaults, config || {});
 
-      this.tabs_el = $( "#tabs" );
+      this.tabs_el = $( "#tabs_container" );
         this.init_map();
         this.init_ros();
         this.init_projections();
@@ -98,7 +98,7 @@ var ROWI = {
       this.tabs = this.tabs_el.tabs({
           //active: 0,
           activate: this.tab_switch.bind(this),
-          heightStyle: 'fill'
+          heightStyle: 'auto'
       });
     },
     add_tile_layer: function(id, name, layer, activate) {
@@ -135,7 +135,7 @@ var ROWI = {
 
       var map_div = res[1];
 
-      map_div.append('<div id="sidebar" class="ui-layout-west pane"><div id="accordion"></div></div><div id="container" class="ui-layout-center pane ui-layout-content"><div id="map"></div></div>');
+      map_div.append('<div style="height:100%" id="sidebar" class="ui-layout-west pane"><div id="accordion"></div></div><div id="container" class="ui-layout-center pane ui-layout-content"><div id="map"></div></div>');
 
       var options = {
           applyDefaultStyles: false,
@@ -221,6 +221,7 @@ var ROWI = {
     },
 
     load_template: function(url) {
+        url += '?_=' + (new Date()).getTime();
         $('#templates').load(url);
     },
     load_css: function(url) {
@@ -314,9 +315,9 @@ var ROWI = {
 
       var tabTemplate = "<li><a href='#{href}'>#{label}</a></li>";
       var li = $( tabTemplate.replace( /#\{href\}/g, "#" + id ).replace( /#\{label\}/g, name ) );
-      var div = $("<div id='"+id+"'>");
+      var div = $("<div id='"+id+"' style=\"min-height:100%; \">");
 
-      this.tabs_el.find("ul").append(li);
+      this.tabs_el.find("#tabs").append(li);
       this.tabs_el.append(div);
 
       if(this.tabs == null) {
@@ -415,6 +416,27 @@ ROWI.utils = {
   },
 };
 
+function normalize_angle_deg(angle) {
+    while(angle > 180) {
+      angle -= 360;
+    }
+    while(angle < -180) {
+      angle += 360;
+    }
+    return angle;
+}
+
+function rad2deg(angle) {
+  return angle / Math.PI * 180.0;
+}
+
+function deg2rad(angle) {
+  return angle * Math.PI / 180.0;
+}
+
+function toRosTime(t) {
+  return {secs: parseInt(t/1000), nsecs: (t%1000)*1e6}
+}
 
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null

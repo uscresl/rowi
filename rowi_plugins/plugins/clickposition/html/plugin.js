@@ -14,7 +14,10 @@ function ClickPositionPlugin(config) {
 ClickPositionPlugin.prototype.init = function() {
     this.panel = ROWI.add_panel(this, "Click position", "/clickposition");
     ROWI.map.on('click', function(e) {
-        this.panel.innerHTML = "Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng;
+        var utm = ROWI.projections.wgs2utm.forward([e.latlng.lng, e.latlng.lat]);
+        this.panel.innerHTML = "<p>Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng + "</p>"
+          + "<p>UTM: " + utm[1] + ", " + utm[0] + "</p>";
+
     }.bind(this));
 };
 
