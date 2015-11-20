@@ -57,5 +57,6 @@
     <rowi plugin="plot" />
     <rowi plugin="uav" />
     <rowi plugin="record_services" />
+    <rowi plugin="move_base" />
   </export>
 </package>
