@@ -9,7 +9,7 @@
 function MoveBasePlugin(config) {
 
     var defaults = {
-        move_base_topic: '/knarr/control/move_base'
+        move_base_topic: '/knarr/control/move_base',
         ros_ns_prefix: '',
     };
 
@@ -135,7 +135,7 @@ MoveBasePlugin.prototype.init = function() {
 
 };
 
-PointPubPlugin.prototype.ros_reload = function(newros) {
+MoveBasePlugin.prototype.ros_reload = function(newros) {
     this.goal_topic = new ROSLIB.Topic({
         ros: ROWI.ros,
         name: this.config.move_base_topic + '_simple/goal',
