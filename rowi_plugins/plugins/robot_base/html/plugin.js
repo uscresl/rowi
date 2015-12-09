@@ -47,6 +47,9 @@ RobotBase.prototype.ros_reload = function(newros) {
 };
 
 RobotBase.prototype.markup_popup_update = function() {
+  if(!this.marker) {
+    return;
+  }
   var now = new Date();
   var html = '<h4>'+this.namespace+'</h4>';
   if(this.position) {
@@ -223,11 +226,15 @@ RobotBase.prototype.center = function() {
 RobotBase.prototype.timerUpdate = function() {
   var now = new Date();
   if(now-this.last_latlon_update > this.config.stale_timeout*1000) {
-    this.marker._icon.classList.add('gray');
+    if(this.marker) {
+      this.marker._icon.classList.add('gray');
+    }
     this.latlon_stale = true;
   } else {
     if(this.latlon_stale) {
+      if(this.marker) {
       this.marker._icon.classList.remove('gray');
+      }
       this.latlon_stale = false;
     }
   }
