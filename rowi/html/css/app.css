@@ -85,3 +85,11 @@ label {
 .diag-bar-stale { background-color: #3498db; color: white;  text-align: center; font-weight: bold; }
 .diag-bar-disconnect { background-color: #9b59b6; color: white; text-align: center; font-weight: bold; }
 .diag-bar-block { float:left; width: calc(100% / 30); display:inline; border-left: 1px solid black; }
+
+img.gray {
+    -webkit-filter: grayscale(100%);
+       -moz-filter: grayscale(100%);
+         -o-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+            filter: grayscale(100%);
+}

@@ -16,7 +16,9 @@ function RobotBase(config) {
             anchor: [7,7],
             popup_anchor: [0, 0],
         },
-        history: true
+        history: true,
+        stale_timeout: 3,
+        buffer_service: null
     };
 
     config = $.extend({}, defaults, config || {});
@@ -33,12 +35,19 @@ function RobotBase(config) {
   this.heading = null;
   this.velocity = null;
   this.angular_velocity = null;
+  this.last_latlon_update = new Date(0);
+  this.latlon_stale = true;
 }
 
 RobotBase.prototype = Object.create(ROWIPlugin.prototype);
 RobotBase.prototype.constructor = RobotBase;
 
+RobotBase.prototype.ros_reload = function(newros) {
+  this.load_position_buffer();
+};
+
 RobotBase.prototype.markup_popup_update = function() {
+  var now = new Date();
   var html = '<h4>'+this.namespace+'</h4>';
   if(this.position) {
     html = html+'<b>Position:</b> '+this.position[0].toFixed(7)+','+this.position[1].toFixed(7)+'<br>';
@@ -52,6 +61,17 @@ RobotBase.prototype.markup_popup_update = function() {
   if(this.angular_velocity) {
     html = html+'<b>Angular velocity</b>: '+this.angular_velocity.toFixed(2)+'<br>';
   }
+  var age = (now-this.last_latlon_update)/1000;
+  if(age > 1) {
+    age = age | 0;
+  } else {
+    age = age.toFixed(2);
+  }
+  html = html+'<b>Pos age.</b>: '+age+' s';
+  if(this.latlon_stale) {
+    html = html+' (stale)';
+  }
+  html = html+'<br>'
   this.marker_popup.html(html);
 }
 
@@ -61,7 +81,8 @@ RobotBase.prototype.createMarker = function() {
       iconUrl: this.config.icon.url,
       iconSize: this.config.icon.size,
       iconAnchor: this.config.icon.anchor,
-      popupAnchor: this.config.icon.popup_anchor
+      popupAnchor: this.config.icon.popup_anchor,
+      className: 'gray'
   });
   this.marker = new L.Marker(this.position, {icon: icon, title: this.namespace, iconAngle: 0, zIndexOffset: 1000}).addTo(ROWI.map);
 
@@ -71,6 +92,49 @@ RobotBase.prototype.createMarker = function() {
   this.marker.on("popupclose", (function() { this.update_marker_popup = false; }).bind(this));
   this.markup_popup_update();
 };
+
+RobotBase.prototype.load_position_buffer = function() {
+
+  if(!this.config.buffer_service) {
+    return;
+  }
+
+  this.clearHistory();
+  var current_time = $.now();
+  var parsedJSON;
+  var latlong = [];
+
+  var bufferServiceClient = new ROSLIB.Service({
+    ros: ROWI.ros,
+    name: this.config.buffer_service,
+    serviceType: 'ros_buffer_service/BufferSrv'
+  });
+
+  var request = new ROSLIB.ServiceRequest({
+    start_time: toRosTime(current_time-900*1000),
+    end_time: toRosTime(current_time)
+  });
+
+
+
+  bufferServiceClient.callService(request,function(result){
+    parsedJSON = $.parseJSON(result["data"]);
+    var lat, lon;
+
+    for(i = 0; i < parsedJSON.length; i++){
+      latlong[i] = new Array();
+      lat = parsedJSON[i].latitude;
+      lon = parsedJSON[i].longitude;
+      latlong[i][0] = lat;
+      latlong[i][1] = lon;
+
+    }
+    this.history.setLatLngs(latlong);
+
+    this.updateLatLon(lat,lon, false);
+  }.bind(this));
+}
+
 RobotBase.prototype.drag_start = function() {
   this.update_tracking(false);
 }
@@ -90,8 +154,11 @@ RobotBase.prototype.createHistory = function() {
   this.history = L.polyline([], {color: this.config.color, weight: 1, opacity: 1}).addTo(ROWI.map);
 };
 
-RobotBase.prototype.updateLatLon = function(lat, lon) {
+RobotBase.prototype.updateLatLon = function(lat, lon, update_time) {
   this.position = [lat, lon];
+  if (update_time === undefined) {
+    this.last_latlon_update = new Date();
+  }
 
   if(this.marker == null) {
     this.createMarker();
@@ -153,6 +220,20 @@ RobotBase.prototype.center = function() {
   ROWI.map.panTo(this.position);
 }
 
+RobotBase.prototype.timerUpdate = function() {
+  var now = new Date();
+  if(now-this.last_latlon_update > this.config.stale_timeout*1000) {
+    this.marker._icon.classList.add('gray');
+    this.latlon_stale = true;
+  } else {
+    if(this.latlon_stale) {
+      this.marker._icon.classList.remove('gray');
+      this.latlon_stale = false;
+    }
+  }
+  this.markup_popup_update();
+}
+
 RobotBase.prototype.init = function() {
   var ClearHistoryAction = L.ToolbarAction.extend({
       options: {
@@ -185,6 +266,8 @@ RobotBase.prototype.init = function() {
 
   ROWI.map.on("dragstart", this.drag_start.bind(this));
   ROWI.map.on("autopanstart", this.drag_start.bind(this));
+
+  this.timer = setInterval(this.timerUpdate.bind(this), 1000);
 
 };
 
