@@ -56,7 +56,7 @@ RobotBase.prototype.markup_popup_update = function() {
     html = html+'<b>Position:</b> '+this.position[0].toFixed(7)+','+this.position[1].toFixed(7)+'<br>';
   }
   if(this.heading) {
-    html = html+'<b>Heading</b>: '+this.normalize_angle_deg(this.heading).toFixed(1)+'<br>';
+    html = html+'<b>Heading</b>: '+this.heading.toFixed(1)+'<br>';
   }
   if(this.velocity) {
     html = html+'<b>Velocity</b>: '+this.velocity.toFixed(2)+'<br>';
@@ -197,7 +197,8 @@ RobotBase.prototype.updatePanel = function() {
 }
 
 RobotBase.prototype.updateHeading = function(heading) {
-  this.marker.setIconAngle(90-heading*180/Math.PI);
+  this.heading = heading*180/Math.PI;
+  this.marker.setIconAngle(90-this.heading);
 };
 
 RobotBase.prototype.clearHistory = function() {
