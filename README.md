@@ -3,6 +3,8 @@ ROWI - Robot Operations Web Interface
 
 ROWI is an extendable modular web interface for robot control & visualization for ROS.
 
+![ROWI Screenshot](https://raw.githubusercontent.com/uscresl/rowi/master/screenshot.png)
+
 ## Design
 
 Designed with field robotics in mind, its main module is a map module based on Leaflet-js which allows for geographic visualization of robots and data. The map can use tiles from variety of sources supported by Leaflet and its plugins. User provided "offline" cached tiles are also supported.
