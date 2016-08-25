@@ -15,6 +15,19 @@
     text-align: center;
 }
 
+.leaflet-toolbar-0 > li > .action{
+  display: block;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  margin-right: 0;
+  padding-right: 0;
+  border-right: 0;
+  text-align: center;
+  text-decoration: none;
+  background-color: #dddddd;
+  /*cursor: not-allowed;*/
+}
 .ui-accordion .ui-accordion-header {
     font-size: 10px;
 }
