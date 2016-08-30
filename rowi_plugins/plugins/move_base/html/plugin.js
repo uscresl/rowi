@@ -20,6 +20,7 @@ function MoveBasePlugin(config) {
 
   ROWIPlugin.call(this, config);
 
+  this.namespace = 'knarr';
   this.position = null;
   this.panel = null;
   this.marker = null;
@@ -42,7 +43,6 @@ MoveBasePlugin.prototype.createPlanLines = function() {
 };
 
 MoveBasePlugin.prototype.init = function() {
-
   this.gotoCommander = function(parent){
 
       var active = false;
@@ -97,6 +97,7 @@ MoveBasePlugin.prototype.init = function() {
           return true;
       }
 
+      var parents4 = ROWI.toolbar.addGroup("Move base", "MB", 3, init);
       var CancelAction = L.ToolbarAction.extend({
           options: {
               toolbarIcon: {
@@ -138,6 +139,9 @@ MoveBasePlugin.prototype.init = function() {
       return {toolbarAction:toolbarAction}
 
   }(this);
+
+  console.log(this.config);
+  console.log(this.namespace);
 
   ROWI.add_toolbar(this, this.gotoCommander.toolbarAction);
 

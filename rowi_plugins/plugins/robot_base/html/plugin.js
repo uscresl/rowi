@@ -242,6 +242,8 @@ RobotBase.prototype.timerUpdate = function() {
   this.markup_popup_update();
 }
 
+
+
 RobotBase.prototype.init = function() {
   var ClearHistoryAction = L.ToolbarAction.extend({
       options: {
@@ -254,13 +256,15 @@ RobotBase.prototype.init = function() {
 
       },
       addHooks: function() {
-
+          console.log(this);
           this.options.parent.clearHistory();
 
       }
   });
   ROWI.add_toolbar(this, ClearHistoryAction);
 
+  var doesWork = ROWI.toolbar.addGroup("Robot base", "RB", 2, RobotBase.clearHistory);
+  console.log(RobotBase);
   this.panel = ROWI.add_panel(this, 'Position', "/"+this.namespace+"/position");
   this.lat_field = $('<div></div>').appendTo(this.panel)[0];
   this.lon_field = $('<div></div>').appendTo(this.panel)[0];

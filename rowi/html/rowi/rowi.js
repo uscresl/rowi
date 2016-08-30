@@ -45,7 +45,7 @@ var ROWI = {
         this.init_projections();
     },
     init_ros: function() {
-
+        this.init_toolbar();
         var master = getURLParameter('master');
         if(master) {
             this.ros_master = master;
@@ -120,6 +120,7 @@ var ROWI = {
         }
         this.map.addLayer(this.layers[id].layer);
     },
+
     init_map: function() {
 
       var res = this.add_tab("Map",
@@ -154,8 +155,10 @@ var ROWI = {
 
 
         this.map = L.map('map', {
-            fullscreenControl: true
+            fullscreenControl: true,
+            contextmenu: true,
             });
+            //this.map.contextmenu.addItem({text: 'Do something', callback: function(e) { console.log(e); } });
 
             var baseMaps = {
                 // "OSM (online)": osm,
@@ -251,7 +254,7 @@ var ROWI = {
                 $(".accordion").multiaccordion({defaultIcon: "ui-icon-plusthick", activeIcon: "ui-icon-minusthick", animation: false});
             })
         })(jQuery);
-        this.init_toolbar();
+        this.draw_toolbar();
     },
     register_plugin: function(name, o) {
         //console.log(name);
@@ -338,11 +341,21 @@ var ROWI = {
     remove_tab: function(id) {
 
     },
-    init_toolbar: function() {
-        new L.Toolbar.Control({
-            actions: this.toolbar_actions,
-            position: 'topleft',
-        }).addTo(this.map);
+    // addAll: function(groupTooltip, groupIcon, groupOrder, actionTooltip, actionIcon, actionOrder, subactionTooltip, subactionIcon){
+    //   this.toolbar.addAll(groupTooltip, groupIcon, groupOrder, actionTooltip, actionIcon, actionOrder, subactionTooltip, subactionIcon);
+    //   //console.log(greeting);
+    // },
+    init_toolbar: function(){
+      this.toolbar = new DynamicToolbars(this.map);
+      //this.parents1 = this.toolbar.addAll('Ecomapper', '&#9852;', 1, 'Dive', '&#9910;', 1, 'Depth', '&#8645;');
+    },
+    draw_toolbar: function() {
+      // console.log(this.toolbar_actions);
+      //   new L.Toolbar.Control({
+      //       actions: this.toolbar_actions,
+      //       position: 'topleft',
+      //   }).addTo(this.map);
+      this.toolbar.draw();
     },
     on: function(event, callback) {
         if(this.callbacks[event]==null) {
