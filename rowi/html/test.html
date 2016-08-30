@@ -1,0 +1,44 @@
+<html>
+<head>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script>
+  var ros = new ROSLIB.Ros({
+    url : 'ws://192.168.10.20:9090'
+  });
+
+  ros.on('connection', function(e) {
+    console.log(ros);
+    console.log(e);
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  ros.getParams(function(params) {
+    console.log(params);
+  });
+
+  ros.getTopics(function(params) {
+    console.log(params);
+  });
+
+  var maxVelX = new ROSLIB.Param({
+    ros : ros,
+    name : '/mastername'
+  });  
+  maxVelX.get(function(value) {
+    console.log(value);
+  });
+</script>
+</head>
+<body>
+open console
+</body>
+</html>
