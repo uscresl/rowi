@@ -43,6 +43,16 @@ function record_services(config) {
       el.attr("class", this.base_icon_classes+icon+' '+color+'-text'+ " title="+text);
     };
 
+    this.ros_reload = function(newros) {
+        this.rc_listener = new ROSLIB.Topic({
+                ros: ROWI.ros,
+                name: '/record_service/status',
+                messageType: 'rosbag_record_service/RecordMsg',
+                throttle_rate: ROWI.THROTTLE_RATE
+        });
+        this.rc_listener.subscribe((this.record_service_callback).bind(this));
+    };
+
     this.single_click = function(topic_group, event){
 
         var act = this.statuses[topic_group];
@@ -188,13 +198,6 @@ function record_services(config) {
         table.css("width","100%");
         table.css("text-align","center");
 
-        this.rc_listener = new ROSLIB.Topic({
-                ros: ROWI.ros,
-                name: '/record_service/status',
-                messageType: 'rosbag_record_service/RecordMsg',
-                throttle_rate: ROWI.THROTTLE_RATE
-        });
-        this.rc_listener.subscribe((this.record_service_callback).bind(this));
     };
 
     this.initicon = function(msg,index) {

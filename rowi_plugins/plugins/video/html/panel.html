@@ -1,8 +1,11 @@
 <div id="video_panel">
     <button id="video_toggle_button">Enable</button>
+    <button id="video_popup_button">Popup</button>
+    <select id="video_topic_select"></select>    
     <script>
     $(function() {
-        $( "#video_toggle_button" ).button()
+        $( "#video_toggle_button" ).button();
+	$( "#video_popup_button" ).button();
       });
     </script><br>
     <img id="video_container" style="width:100%;"></img>

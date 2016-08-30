@@ -1,0 +1,95 @@
+<div id = "outer">
+	<div id="inputUI">
+		<p> What topic would you like to search? <br> </p>
+		<input id ='topicInput' style= 'width:400px'></input>
+		<button id ='submit'>Enter</button>
+		<p>&emsp;</p>
+		<p>How many seconds of data would you like to plot at a time?</p>
+		<input id ='xDist' style= 'width:50px'></input>
+		<button id ='interval'>Enter</button>
+		<p>&emsp;</p>
+		<button id ='clear'>Clear Graph</button>
+		<button id ='uncheck'>Uncheck all</button>
+	</div>
+	<script type="text/javascript" src="http://localhost:8000/jstree/jstree.min.js"></script>
+	<div id="secondDiv" style = 'width: 100%; margin: 0 auto;'>
+		<p id = "forTopic" allign = 'center' style = 'padding:10px; font-size:200%'> TEST TEXT TEST TEXT </p>
+	</div>
+<!-- 	<div id="placeholder" style="width:500px; height:300px;"></div> -->
+	<div>
+		<div id = "jstree" style = "float: left; width: 200px;">
+			<!-- <ul>
+				<li>This</li>
+				<li>is</li>
+				<li>for</li>
+				<li>testing
+					<ul>
+						<li>the</li>
+						<li>jstree</li>
+					</ul>
+				</li>
+			</ul> -->
+		</div>
+
+	</div>
+	<!-- <div id = 'shell' style = 'margin: auto'>
+		<div id = "scrollingDiv" style = "display: inline; overflow:auto; height:300px; width:400px; display: block; float: left;">
+		</div>
+		<div id = "messageScroll" style = "display; inline; overflow:auto; height:300px; width:400px; display: block; float: left;">
+		</div>
+		<div id = "fieldScroll" style = "display; inline; overflow:auto; height:300px; width:400px; display: block; float: left;">
+		</div>
+	</div> -->
+</div>
+
+
+<!-- 
+        //console.log(this.data[i][j]);
+        if(this.data[i][j] > this.max){
+          this.buffer = (this.max - this.min)/10;
+          this.max = this.data[i][j];
+          var initial_data = [];
+          for (var i = 0; i < PlotPlugin.num_points; ++i) {
+            initial_data.push([i, 0]);
+          }
+          PlotPlugin.plot = $.plot(PlotPlugin.el, [initial_data], {
+            series: {
+              shadowSize: 0,
+            },
+            yaxis: {
+              show: true,
+              min: (this.min - this.buffer),
+              max: (this.max + this.buffer),
+              autoscaleMargin: 0.2
+            },
+            xaxis: {
+              show: true,
+              min: null,
+              max: null,
+            }
+          });
+        }
+        else if(this.data[i][j] < this.min){
+          this.buffer = (this.max - this.min)/10;
+          this.min = this.data[i][j];
+          var initial_data = [];
+          for (var i = 0; i < PlotPlugin.num_points; ++i) {
+            initial_data.push([i, 0]);
+          }
+          PlotPlugin.plot = $.plot(PlotPlugin.el, [initial_data], {
+            series: {
+              shadowSize: 0,
+            },
+            yaxis: {
+              show: true,
+              min: (this.min - this.buffer),
+              max: (this.max + this.buffer),
+              autoscaleMargin: 0.2
+            },
+            xaxis: {
+              show: true,
+              min: null,
+              max: null,
+            }
+          });
+        } -->
