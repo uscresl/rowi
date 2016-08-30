@@ -13,3 +13,6 @@
 [submodule "rowi/html/lib/Leaflet.draw"]
 	path = rowi/html/lib/Leaflet.draw
 	url = https://github.com/Leaflet/Leaflet.draw.git
+[submodule "rowi/html/lib/Leaflet.contextmenu"]
+	path = rowi/html/lib/Leaflet.contextmenu
+	url = https://github.com/aratcliffe/Leaflet.contextmenu.git

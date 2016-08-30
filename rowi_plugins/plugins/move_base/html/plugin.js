@@ -18,6 +18,7 @@ function MoveBasePlugin(config) {
 
   ROWIPlugin.call(this, config);
 
+  this.namespace = 'knarr';
   this.position = null;
   this.panel = null;
   this.marker = null;
@@ -124,6 +125,9 @@ MoveBasePlugin.prototype.init = function() {
       return {toolbarAction:toolbarAction}
 
   }(this);
+
+  console.log(this.config);
+  console.log(this.namespace);
 
   ROWI.add_toolbar(this, this.gotoCommander.toolbarAction);
 

@@ -154,8 +154,10 @@ var ROWI = {
 
 
         this.map = L.map('map', {
-            fullscreenControl: true
+            fullscreenControl: true,
+            contextmenu: true,
             });
+            //this.map.contextmenu.addItem({text: 'Do something', callback: function(e) { console.log(e); } });
 
             var baseMaps = {
                 // "OSM (online)": osm,
