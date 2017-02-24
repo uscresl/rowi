@@ -55,6 +55,7 @@
     <rowi plugin="video" />
     <rowi plugin="web_video" />
     <rowi plugin="plot" />
+    <rowi plugin="test_plugin" />
     <rowi plugin="uav" />
     <rowi plugin="record_services" />
     <rowi plugin="move_base" />

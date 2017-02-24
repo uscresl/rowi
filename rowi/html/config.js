@@ -19,6 +19,9 @@ var config = {
             type: 'plot',
         },
         {
+            type: 'test_plugin',
+        },
+        {
             type: 'web_video',
         },
     ]

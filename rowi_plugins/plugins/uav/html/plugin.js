@@ -28,6 +28,7 @@ UAV.prototype.init = function() {
   // Call parent init function
   RobotBase.prototype.init.call(this);
   // More init code here if needed
+
 };
 
 // Implement our own ros reload method.

@@ -186,6 +186,8 @@ DynamicToolbars.prototype.createNode = function(name, id, location, subactions, 
   //is going to have any sub actions attributed to it. Also in the second addHooks listener, we are handling the 
   //decision to expand or retract the actions that belong to a given group.
   this.iconSettings["KN"] = "fa fa-ship";
+  this.iconSettings["EC"] = "fa-rocket";
+  this.iconSettings["BX"] = "fa-th-large";
   this.iconSettings["MB"] = "fa fa-dot-circle-o";
   this.iconSettings["RB"] = "fa fa-ban";
   this.iconSettings["HC"] = "fa fa-compass";

@@ -97,7 +97,7 @@ MoveBasePlugin.prototype.init = function() {
           return true;
       }
 
-      var parents4 = ROWI.toolbar.addGroup("Move base", "MB", 3, init);
+      var parents4 = ROWI.toolbar.addGroup("Move base", "MB", 4, init);
       var CancelAction = L.ToolbarAction.extend({
           options: {
               toolbarIcon: {

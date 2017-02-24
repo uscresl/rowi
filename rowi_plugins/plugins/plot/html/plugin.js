@@ -27,8 +27,10 @@ function PlotPlugin(config) {
   this.objectSize;
   this.initial = false;
   this.initialTime = 0;
+  this.forExport = [];
   this.seconds = 0;
-  this.arrayTest = [];
+  this.dataSet = [];
+  this.numDownloads = 0; 
 }
 
 PlotPlugin.prototype = Object.create(ROWIPlugin.prototype);
@@ -77,6 +79,28 @@ PlotPlugin.prototype.init = function() {
     this.parseMessage(this.theMessage);
   }.bind(this));
 
+  // Function to download data to a file
+  // Credit to Chris Nolet on stack overflow for this function
+  // http://stackoverflow.com/questions/18998543/set-content-type-on-blob
+  //*******************************************
+  function download(data, filename, type) {
+      var a = document.createElement("a"),
+          file = new Blob([data], {type: type, endings: "native"});
+      if (window.navigator.msSaveOrOpenBlob) // IE10+
+          window.navigator.msSaveOrOpenBlob(file, filename);
+      else { // Others
+          var url = URL.createObjectURL(file);
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function() {
+              document.body.removeChild(a);
+              window.URL.revokeObjectURL(url);  
+          }, 0); 
+      }
+  }
+  //***********************************************
   $("#interval").click(function(){
     var x = $("#xDist").val();
     $("#xDist").text(" ");
@@ -87,6 +111,29 @@ PlotPlugin.prototype.init = function() {
 
   $( "#clear" ).click(function() {
     this.graphClear();
+  }.bind(this));
+
+  $( "#export" ).click(function() {
+    //Save data as comma separated value sheet
+    var start = $('#startExport').val();
+    var end = $('#endExport').val();
+    console.log('export triggered');
+    var dlFilename = 'data'+this.numDownloads+'.csv';
+    this.numDownloads++;
+    var dataString = '';
+    var min = 100000000000; 
+    for(var i = 0; i < this.forExport.length; ++i){
+      if(this.forExport[i].length < min){
+        min = this.forExport[i].length;
+      }
+    }
+    for(var i = 0; i < min; i=i+2){
+      for(var j = 0; j < this.forExport.length; ++j){
+        dataString+=this.forExport[j][i] + ',' + this.forExport[j][i+1] + ','; 
+      }
+      dataString+='\n';
+    }
+    download(dataString, dlFilename, 'text/csv');
   }.bind(this));
 
   $( "#uncheck" ).click(function() {
@@ -431,10 +478,13 @@ PlotPlugin.prototype.setUp = function(el, options) {
 }
 
 PlotPlugin.prototype.resize = function(){
-  for(var i = 0; i < this.arrayTest.length; ++i){
-    this.arrayTest[i] = new Array(0);
+  for(var i = 0; i < this.dataSet.length; ++i){
+    this.dataSet[i] = new Array(0);
+    this.forExport[i] = new Array(0);
   }
-  this.arrayTest.push(new Array(0));
+  this.dataSet.push(new Array(0));
+  this.forExport.push(new Array(0));
+  
 }
 
 PlotPlugin.prototype.update = function(msg) {
@@ -449,9 +499,9 @@ PlotPlugin.prototype.update = function(msg) {
     }
   }
 
-  for(var i = 0; i < this.arrayTest.length; ++i){
-    if(this.arrayTest[i].length/5 > PlotPlugin.num_points){
-      this.arrayTest[i].splice(0,1);
+  for(var i = 0; i < this.dataSet.length; ++i){
+    if(this.dataSet[i].length/5 > PlotPlugin.num_points){
+      this.dataSet[i].splice(0,1);
     }
   }
 
@@ -468,7 +518,9 @@ PlotPlugin.prototype.update = function(msg) {
   for (var i = 0; i < Object.size(this.messageBuffer); ++i) {
     if(this.dynamicMessages[i]!=''){
       if(this.initialTime != msg.header.stamp.nsecs){
-        this.arrayTest[i].push([(this.seconds/5), this.messageBuffer[this.dynamicMessages[i]][0]])
+        this.dataSet[i].push([(this.seconds/5), this.messageBuffer[this.dynamicMessages[i]][0]]);
+        //console.log(this.seconds/5.0, this.messageBuffer[this.dynamicMessages[i]][0]);
+        this.forExport[i].push((this.seconds/5),this.messageBuffer[this.dynamicMessages[i]][0]);
         this.messageBuffer[this.dynamicMessages[i]] = [];
       } 
     }
@@ -476,7 +528,7 @@ PlotPlugin.prototype.update = function(msg) {
 
   PlotPlugin.plot.getOptions().legend.noColumns = 1;
   if(this.initialTime != msg.header.stamp.nsecs){
-    PlotPlugin.plot.setData(this.arrayTest);
+    PlotPlugin.plot.setData(this.dataSet);
     this.initialTime = msg.header.stamp.secs;
     this.seconds++;
   }

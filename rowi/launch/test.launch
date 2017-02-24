@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find rowi)/launch/rowi.launch" />
+
+  <node name="random_pub" pkg="rowi" type="random_pub.py" output="screen">
+  </node>
+
+</launch>
