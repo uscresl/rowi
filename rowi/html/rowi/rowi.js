@@ -17,6 +17,7 @@ var ROWI = {
     panels: [],
     THROTTLE_RATE: 100,
     toolbar_actions: [],
+    path_box: true,
     callbacks: {},
     ros_init: false,
     ros_master: window.location.hostname,
